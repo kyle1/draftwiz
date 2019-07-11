@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
 import TeamsList from './TeamsList';
+import DraftPickStatus from './DraftPickStatus';
 import Draftboard from './Draftboard';
 
 const DraftStyle = styled.div`
@@ -23,7 +24,7 @@ const teamList = [
     'Team 4',
     'Team 5',
     'Team 6',
-    'Team 7',
+    'Kyle',
     'Team 8',
     'Team 9',
     'Team 10',
@@ -42,8 +43,10 @@ var teamToDraftNext = 1;
 class Draft extends Component {
     constructor(props) {
         super(props);
-        this.handleDraftPick = this.handleDraftPick.bind(this);
+        this.state = { round: round };
+        this.state = { pickNum: pickNum };
         this.state = { teamToDraftNext: teamToDraftNext }
+        this.handleDraftPick = this.handleDraftPick.bind(this);
         this.state = { pickedPlayer: pickedPlayer };
       }
 
@@ -69,8 +72,10 @@ class Draft extends Component {
         // console.log("Team to draft next is: " + teamToDraftNext);
 
         pickedPlayer = player;
-        this.setState({ teamToDraftNext })
-        this.setState({ pickedPlayer })
+        this.setState({ pickNum });
+        this.setState({ round });
+        this.setState({ teamToDraftNext });
+        this.setState({ pickedPlayer });
     }
 
     render() {
@@ -78,14 +83,19 @@ class Draft extends Component {
             <div>
                 <DraftStyle>
                     {/* <Header /> */}
-                    <Draftboard onDraftPick={this.handleDraftPick}/>
-                    <TeamsListDiv>
-                        <TeamsList
-                            teams={teamList}
-                            teamThatDrafted={teamThatDrafted}
-                            teamToDraftNext={teamToDraftNext}
-                            pickedPlayer={pickedPlayer} />
-                    </TeamsListDiv>
+                    <DraftPickStatus
+                        round={round}
+                        pick={pickNum}
+                        teamNameToDraftNext={teamList[teamToDraftNext-1]}
+                    />
+                        <Draftboard onDraftPick={this.handleDraftPick}/>
+                        <TeamsListDiv>
+                            <TeamsList
+                                teams={teamList}
+                                teamThatDrafted={teamThatDrafted}
+                                teamToDraftNext={teamToDraftNext}
+                                pickedPlayer={pickedPlayer} />
+                        </TeamsListDiv>
                 </DraftStyle>
             </div>
         );
